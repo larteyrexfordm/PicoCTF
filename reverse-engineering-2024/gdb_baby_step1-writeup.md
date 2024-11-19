@@ -1,8 +1,9 @@
-Tackling PicoCTF-2024 Reverse-Engineering Challenge: GDB Baby Step 1
+<h1><b>Reverse-Engineering: GDB BABY STEP 1</b></h1>
+<h2>Tackling PicoCTF-2024 Reverse-Engineering Challenge: GDB Baby Step 1</h2>
 
 If you're diving into reverse engineering or want to get familiar with the GNU Debugger (GDB), this guide will help you tackle the PicoCTF “GDB Baby Step 1” challenge. GDB is a powerful tool for debugging and reverse engineering, often used by security professionals and developers to understand how programs work at a low level.
 
-What is GDB?
+<b>What is GDB?</b>
 
 GDB stands for the GNU Debugger, a tool that allows you to inspect and control the execution of a program. It’s mainly used in Linux environments and helps programmers "see" inside their programs as they run. With GDB, you can:
 
@@ -18,27 +19,27 @@ In reverse engineering, GDB is vital for dissecting compiled programs and unders
 Getting Started with the Challenge
 
  Setup: Use a Kali Linux virtual machine (VM) and download the “GDB Baby Step 1” challenge from the PicoCTF website by using the syntax
-[wget link_of_the_challenge] to download the challenge file
+```[wget link_of_the_challenge]``` to download the challenge file
 
 
  Granting Executable Permissions: Before running the file, you’ll need to make sure it has the necessary executable permissions. You can use this command:
 
-chmod +x debugger0_a
+```chmod +x debugger0_a```
 
 Alternatively, if you prefer, you can also use:
 
-sudo chmod 755 debugger0_a
+```sudo chmod 755 debugger0_a```
 
 This grants full permission to the file and makes it executable.
 
 
 File Analysis: Once downloaded and made executable, check the file type by running:
 
-file debugger0_a
+```file debugger0_a```
 
 You could also use the ls -l command to confirm the permissions:
 
-ls -l debugger0_a
+```ls -l debugger0_a```
 
 The result shows that it’s an ELF (Executable and Linkable Format) file, a common format for Linux executables. This file is 64-bit and not stripped, meaning we can see its symbols and debug it easily.
 
@@ -50,50 +51,50 @@ Now, let’s use GDB to disassemble and explore the code:
 
 Start GDB with the following command:
 
-gdb debugger0_a
+```gdb debugger0_a```
 
 Alternatively, if you prefer a more compact command for starting GDB with your program, use:
 
-gdb -q debugger0_a
+```gdb -q debugger0_a```
 
 The -q flag will start GDB in quiet mode, avoiding unnecessary startup messages.
 
 
 To list all functions, type:
 
-info functions
+```info functions```
 
 Alternatively, use the nm tool to list the symbols (including function names) in the binary:
 
-nm debugger0_a
+```nm debugger0_a```
 
 This will give you a list of symbols, including the main function.
 
 
 Change the disassembly format to Intel syntax (more familiar for many users):
 
-set disassembly-flavor intel
+```set disassembly-flavor intel```
 
 Another alternative to this step would be to directly change the syntax to Intel in GDB’s configuration file, but the above command is a quick and temporary solution.
 
 Disassemble the main function:
 
-disassemble main
+```disassemble main```
 
 An alternative approach would be to use objdump to disassemble the binary:
 
-objdump -d debugger0_a
+```objdump -d debugger0_a```
 
 This shows the disassembled code of the program, allowing you to locate the value stored in the EAX register.
 
 
 To convert the hexadecimal value to decimal, use Python or any other tool you prefer:
 
-python -c "print(int(0x86342))"
+```python -c "print(int(0x86342))"```
 
 Alternatively, you can use an online converter or a simple bash script:
 
-echo $((0x86342))
+```echo $((0x86342))```
 
 This will return the decimal value 549698, which is the flag: picoCTF{549698}.
 
@@ -105,36 +106,36 @@ For a more hands-on approach, you can use GDB's debugging features:
 
 Set a breakpoint at the main function:
 
-break main
+```break main```
 
 Alternatively, you can use b for short:
 
-b main
+```b main```
 
 
 Run the program:
 
-run
+```run```
 
 A shorthand for run is r, so:
 
-r
+```r```
 
 
 Use layout asm for assembly code visualization and step through the code with ni (next instruction) until you reach the instruction that loads the value into the EAX register. Instead of using layout asm, you can also use:
 
-disas
+```disas```
 
 to display the disassembled code directly within GDB.
 
 
 To view the value in EAX, type:
 
-print/d $eax
+```print/d $eax```
 
 Alternatively, use the shorter version:
 
-p/d $eax
+```p/d $eax```
 
 This will show the value 549698, confirming the flag.
 
